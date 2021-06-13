@@ -39,6 +39,8 @@ class ResultParser : public IResultParser
 {
 public:
     string ParseResults(Profile& profile, const SystemInformation& system, vector<Results> vResults);
+	//skylark
+	int SaveToFile(string filename);
 
 private:
     void _DisplayFileSize(UINT64 fsize);
@@ -60,6 +62,5 @@ private:
     void _PrintTarget(const Target &target, bool fUseThreadsPerFile, bool fUseRequestsPerFile, bool fCompletionRoutines);
 
     string _sResult;
-
     friend class UnitTests::ResultParserUnitTests;
 };

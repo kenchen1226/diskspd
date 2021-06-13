@@ -173,7 +173,9 @@ void CmdLineParser::_DisplayUsageInfo(const char *pszFilename) const
     printf("  -i<count>             number of IOs per burst; see -j [default: inactive]\n");
     printf("  -j<milliseconds>      interval in <milliseconds> between issuing IO bursts; see -i [default: inactive]\n");
     printf("  -I<priority>          Set IO priority to <priority>. Available values are: 1-very low, 2-low, 3-normal (default)\n");
-    printf("  -l                    Use large pages for IO buffers\n");
+	//skylark
+	printf("  -k<filename>          set log filename\n");
+	printf("  -l                    Use large pages for IO buffers\n");
     printf("  -L                    measure latency statistics\n");
     printf("  -n                    disable default affinity (-a)\n");
     printf("  -N<vni>               specify the flush mode for memory mapped I/O\n");
@@ -863,6 +865,18 @@ bool CmdLineParser::_ReadParametersFromCmdLine(const int argc, const char *argv[
                 }
             }
             break;
+		//skylark
+		case 'k':    //set log file name
+			if (0 != *(arg + 1))
+			{
+				const char* pszArg = arg + 1;
+				pProfile->SetLogFilename(pszArg);
+			}
+			else
+			{
+				fError = true;
+			}
+			break;
 
         case 'l':    //large pages
             for (auto i = vTargets.begin(); i != vTargets.end(); i++)

@@ -34,6 +34,8 @@ class XmlResultParser: public IResultParser
 {
 public:
     string ParseResults(Profile& profile, const SystemInformation& system, vector<Results> vResults);
+	//skylark
+	int SaveToFile(string filename);
 
 private:
     void _PrintCpuUtilization(const Results& results, const SystemInformation& system);

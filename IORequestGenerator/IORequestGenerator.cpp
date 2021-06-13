@@ -2118,7 +2118,16 @@ bool IORequestGenerator::GenerateRequests(Profile& profile, IResultParser& resul
         SystemInformation system;
         EtwResultParser::ParseResults(vResults);
         string sResults = resultParser.ParseResults(profile, system, vResults);
-        print("%s", sResults.c_str());
+        //skylark, in here will print to console,
+		//if want to save to a file,
+		print("%s", sResults.c_str());
+		string filename = profile.GetLogFilename();
+		
+		if (filename != "") {
+			
+			resultParser.SaveToFile(profile.GetLogFilename());
+			
+		}
     }
 
     return fOk;

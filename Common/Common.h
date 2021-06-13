@@ -41,6 +41,10 @@ SOFTWARE.
 #include "IoBucketizer.h"
 #include "ThroughputMeter.h"
 
+//skylark
+#include <fstream>
+#include <iostream>
+
 using namespace std;
 
 TRACELOGGING_DECLARE_PROVIDER(g_hEtwProvider);
@@ -55,7 +59,7 @@ TRACELOGGING_DECLARE_PROVIDER(g_hEtwProvider);
 //      Monday, June 16, 2014 12:00:00 AM
 
 #define DISKSPD_RELEASE_TAG ""
-#define DISKSPD_REVISION    "a"
+#define DISKSPD_REVISION    "b"
 
 #define DISKSPD_MAJOR       2
 #define DISKSPD_MINOR       0
@@ -67,7 +71,7 @@ TRACELOGGING_DECLARE_PROVIDER(g_hEtwProvider);
 #define DISKSPD_MAJORMINOR_VERSION_STR DISKSPD_MAJORMINOR_VERSION_STRING(DISKSPD_MAJOR, DISKSPD_MINOR, DISKSPD_BUILD)
 
 #define DISKSPD_NUMERIC_VERSION_STRING DISKSPD_MAJORMINOR_VERSION_STR DISKSPD_REVISION DISKSPD_RELEASE_TAG
-#define DISKSPD_DATE_VERSION_STRING "2018/9/21"
+#define DISKSPD_DATE_VERSION_STRING "2021/06/13 , by Ingrasys"
 
 #define DISKSPD_TRACE_INFO      0x00000000
 #define DISKSPD_TRACE_RESERVED  0x00000001
@@ -1286,6 +1290,7 @@ public:
         _fEtwUseSystemTimer(false),
         _fEtwUseCyclesCounter(false),
         _resultsFormat(ResultsFormat::Text),
+		_logFilename(""), //skylark
         _precreateFiles(PrecreateFiles::None)
     {
     }
@@ -1313,6 +1318,10 @@ public:
 
     void SetResultsFormat(ResultsFormat format) { _resultsFormat = format; }
     ResultsFormat GetResultsFormat() const { return _resultsFormat; }
+
+	//skylark
+	void SetLogFilename(string filename) { _logFilename = filename; }
+	string GetLogFilename() const { return _logFilename; }
 
     void SetPrecreateFiles(PrecreateFiles c) { _precreateFiles = c; }
     PrecreateFiles GetPrecreateFiles() const { return _precreateFiles; }
@@ -1359,6 +1368,8 @@ private:
     string _sCmdLine;
     ResultsFormat _resultsFormat;
     PrecreateFiles _precreateFiles;
+	//skylark
+	string _logFilename;
 
     //ETW
     bool _fEtwEnabled;
@@ -1559,6 +1570,9 @@ class IResultParser
 {
 public:
     virtual string ParseResults(Profile& profile, const SystemInformation& system, vector<Results> vResults) = 0;
+	//skylark, save to files
+	virtual int SaveToFile(string filename) = 0;
+
 };
 
 class EtwResultParser

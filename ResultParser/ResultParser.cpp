@@ -970,3 +970,24 @@ string ResultParser::ParseResults(Profile& profile, const SystemInformation& sys
 
     return _sResult;
 }
+
+//skylark
+int ResultParser::SaveToFile(string filename)
+{
+	//if filename is empty, return 1, fail
+	if (filename == "")
+		return 1;
+	ofstream out(filename);
+
+	if (out) {
+		out << _sResult;
+		out.close();
+		return 0;
+	}
+	else {
+		printf("\n can not open %s to save !!!", filename.c_str());
+		return 1;
+	}
+
+	
+}

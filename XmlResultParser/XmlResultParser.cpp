@@ -520,3 +520,15 @@ string XmlResultParser::ParseResults(Profile& profile, const SystemInformation& 
     _Print("</Results>");
     return _sResult;
 }
+
+//skylark
+int XmlResultParser::SaveToFile(string filename)
+{
+	//if filename is empty, return 1, fail
+	if (filename == "")
+		return 1;
+	ofstream out(filename);
+	out << _sResult;
+	out.close();
+	return 0;
+}
